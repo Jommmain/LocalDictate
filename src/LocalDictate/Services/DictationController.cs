@@ -18,8 +18,24 @@ public sealed class DictationController : IDisposable
     private bool _started;
     private DateTime _startedAt;
     private Window? _hostWindow;
+    private int _visualQueued;
+    private RecordingVisual _latestVisual;
+    private volatile bool _captureLevels;
 
     public event EventHandler<string>? StatusChanged;
+
+    public event EventHandler<RecordingVisual>? VisualChanged;
+
+    public bool IsDictating
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _busy || _recorder.IsRecording;
+            }
+        }
+    }
 
     public DictationController(
         AppSettings settings,
@@ -37,6 +53,13 @@ public sealed class DictationController : IDisposable
         _history = history;
         _hotkeys = hotkeys;
         _logger = logger;
+        _recorder.LevelAvailable += (_, level) =>
+        {
+            if (_captureLevels && _recorder.IsRecording)
+            {
+                PublishVisual(true, "Запись", level);
+            }
+        };
     }
 
     public void AttachWindow(Window window) => _hostWindow = window;
@@ -68,21 +91,28 @@ public sealed class DictationController : IDisposable
         if (!_recorder.IsRecording)
         {
             _startedAt = DateTime.UtcNow;
+            _captureLevels = true;
             _recorder.Start();
+            SoundCues.Play(_settings.PlaySoundCues, starting: true);
             RaiseStatus("Идёт запись…");
+            PublishVisual(true, "Запись", 0.05f);
             return;
         }
 
         lock (_gate) _busy = true;
         try
         {
+            _captureLevels = false;
+            SoundCues.Play(_settings.PlaySoundCues, starting: false);
             RaiseStatus("Распознавание…");
+            PublishVisual(true, "Распознавание", 0f);
             var wav = _recorder.Stop();
             var audioSeconds = (DateTime.UtcNow - _startedAt).TotalSeconds;
             var text = await _asr.TranscribeWavAsync(wav);
             if (string.IsNullOrWhiteSpace(text))
             {
                 RaiseStatus("Пусто — попробуйте ещё раз");
+                PublishVisual(false, "", 0f);
                 return;
             }
 
@@ -91,11 +121,13 @@ public sealed class DictationController : IDisposable
 
             _history.Add(text, audioSeconds);
             RaiseStatus($"Вставлено: {Truncate(text, 60)}");
+            PublishVisual(false, "", 0f);
         }
         catch (Exception ex)
         {
             _logger.Error("dictation failed", ex);
             RaiseStatus($"Ошибка: {ex.Message}");
+            PublishVisual(false, "", 0f);
         }
         finally
         {
@@ -104,6 +136,39 @@ public sealed class DictationController : IDisposable
     }
 
     private void RaiseStatus(string status) => StatusChanged?.Invoke(this, status);
+
+    private void PublishVisual(bool active, string phase, float level)
+    {
+        var elapsed = active && _startedAt != default
+            ? Math.Max(0, (DateTime.UtcNow - _startedAt).TotalSeconds)
+            : 0;
+        _latestVisual = new RecordingVisual(active, phase, level, elapsed);
+        if (Interlocked.Exchange(ref _visualQueued, 1) == 1)
+        {
+            return;
+        }
+
+        var dispatcher = Application.Current?.Dispatcher;
+        if (dispatcher is null)
+        {
+            Interlocked.Exchange(ref _visualQueued, 0);
+            VisualChanged?.Invoke(this, _latestVisual);
+            return;
+        }
+
+        try
+        {
+            dispatcher.BeginInvoke(new Action(() =>
+            {
+                Interlocked.Exchange(ref _visualQueued, 0);
+                VisualChanged?.Invoke(this, _latestVisual);
+            }));
+        }
+        catch (InvalidOperationException)
+        {
+            Interlocked.Exchange(ref _visualQueued, 0);
+        }
+    }
 
     private static string Truncate(string value, int max)
         => value.Length <= max ? value : value[..max] + "…";

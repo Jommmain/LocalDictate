@@ -13,6 +13,8 @@ public sealed class AudioRecorder : IDisposable
 
     public bool IsRecording { get; private set; }
 
+    public event EventHandler<float>? LevelAvailable;
+
     public AudioRecorder(AppLogger logger)
     {
         _logger = logger;
@@ -34,6 +36,7 @@ public sealed class AudioRecorder : IDisposable
             _waveIn.DataAvailable += (_, args) =>
             {
                 _writer?.Write(args.Buffer, 0, args.BytesRecorded);
+                LevelAvailable?.Invoke(this, PeakLevel(args.Buffer, args.BytesRecorded));
             };
             _waveIn.StartRecording();
             IsRecording = true;
@@ -65,6 +68,21 @@ public sealed class AudioRecorder : IDisposable
             _logger.Info($"recording stopped ({wav.Length} bytes wav)");
             return wav;
         }
+    }
+
+    private static float PeakLevel(byte[] buffer, int byteCount)
+    {
+        float peak = 0;
+        for (var i = 0; i + 1 < byteCount; i += 2)
+        {
+            var sample = Math.Abs(BitConverter.ToInt16(buffer, i) / 32768f);
+            if (sample > peak)
+            {
+                peak = sample;
+            }
+        }
+
+        return Math.Clamp(peak, 0f, 1f);
     }
 
     public void Dispose()
