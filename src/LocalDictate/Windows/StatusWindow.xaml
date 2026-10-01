@@ -41,6 +41,13 @@
         </Grid>
         <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
         <Grid Margin="14,11">
+          <TextBlock Text="Сигналы записи" VerticalAlignment="Center" FontSize="14"/>
+          <CheckBox x:Name="SoundCuesBox" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Style="{StaticResource SoftToggle}"
+                    Checked="SoundCues_Changed" Unchecked="SoundCues_Changed"/>
+        </Grid>
+        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
+        <Grid Margin="14,11">
           <TextBlock Text="Офлайн" VerticalAlignment="Center" FontSize="14"/>
           <TextBlock x:Name="OfflineValue" HorizontalAlignment="Right" VerticalAlignment="Center"
                      Foreground="{DynamicResource MutedBrush}" FontSize="14"/>

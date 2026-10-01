@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Include="..\..\src\LocalDictate\Services\OverlayPlacement.cs" Link="OverlayPlacement.cs" />
     <Compile Include="..\..\src\LocalDictate\Services\ReleaseChannel.cs" Link="ReleaseChannel.cs" />
+    <Compile Include="..\..\src\LocalDictate\AppSettings.cs" Link="AppSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>

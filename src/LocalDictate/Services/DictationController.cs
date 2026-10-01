@@ -93,6 +93,7 @@ public sealed class DictationController : IDisposable
             _startedAt = DateTime.UtcNow;
             _captureLevels = true;
             _recorder.Start();
+            SoundCues.Play(_settings.PlaySoundCues, starting: true);
             RaiseStatus("Идёт запись…");
             PublishVisual(true, "Запись", 0.05f);
             return;
@@ -102,6 +103,7 @@ public sealed class DictationController : IDisposable
         try
         {
             _captureLevels = false;
+            SoundCues.Play(_settings.PlaySoundCues, starting: false);
             RaiseStatus("Распознавание…");
             PublishVisual(true, "Распознавание", 0f);
             var wav = _recorder.Stop();

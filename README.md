@@ -36,6 +36,8 @@ dotnet publish src/LocalDictate/LocalDictate.csproj -c Release -r win-x64 --self
 
 Установка, первый запуск и автообновление из GitHub Releases: [docs/INSTALL.md](docs/INSTALL.md). Установщик — `installer/LocalDictate.iss` (Inno Setup 6, per-user, вся папка).
 
+Иконка: `src/LocalDictate/Assets/localdictate.svg`. Пересборка размеров — `src/LocalDictate/Assets/render-icon.sh` (нужен `rsvg-convert`). Сигналы начала и конца записи выключены (`playSoundCues: false`); если включить их в настройках, звук короткий и тихий.
+
 ## Проверка на нескольких мониторах
 
 Облачная сборка не двигает реальные мониторы. На Windows:
@@ -54,7 +56,7 @@ dotnet publish src/LocalDictate/LocalDictate.csproj -c Release -r win-x64 --self
 
 ## Статус
 
-0.2.6: иконка, волна записи, индикатор на мониторе курсора, синяя палитра, проверка стабильных релизов GitHub и замена всей папки установки.
+0.2.6: своя иконка, волна записи, индикатор на мониторе курсора, синяя палитра, тихие сигналы по желанию, проверка стабильных релизов GitHub и замена всей папки установки.
 
 ## Лицензия
 

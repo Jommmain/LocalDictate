@@ -31,6 +31,8 @@ Windows 10/11, 64-bit. Диктовка офлайн. Сеть нужна для
 2. Дождитесь однократной загрузки модели в `%LocalAppData%\LocalDictate\models`.
 3. Правый Ctrl — начать запись, ещё раз — остановить, распознать и вставить текст в активное окно.
 
+Звуковых сигналов при запуске нет. Короткие тихие сигналы начала и конца записи выключены (`playSoundCues: false`). Их можно включить переключателем «Сигналы записи». Если в старом `settings.json` стоит `true`, значение сохраняется, но звук больше не системный и тише.
+
 После появления модели диктовка работает без интернета.
 
 ## 4. GPU / CUDA
@@ -43,7 +45,7 @@ Windows 10/11, 64-bit. Диктовка офлайн. Сеть нужна для
 
 Канал — только стабильные теги `vX.Y.Z` в GitHub Releases. Черновики и prerelease игнорируются.
 
-При запуске LocalDictate спрашивает список релизов. Если есть версия новее, в окне и в трее появляется предложение. Кнопка **Обновить**:
+При запуске LocalDictate спрашивает список релизов. Если есть версия новее, в окне строка «Обновления» меняет кнопку на **Обновить** (без всплывающего звука в трее):
 
 1. Скачивает zip всего пакета, не один exe.
 2. Сверяет SHA-256 с полем `digest` релиза. Без суммы или при несовпадении папка установки не меняется.
@@ -101,13 +103,15 @@ Uninstall removes that folder and the shortcuts. Models, settings, and history s
 
 Allow the microphone, wait for the one-time model download, then use Right Ctrl to record and again to transcribe and paste.
 
+There is no startup beep. Record start/stop cues are off (`playSoundCues: false`) until the “Сигналы записи” switch is turned on. An older `settings.json` that already has `true` keeps that choice; the tone is a short quiet wave, not a system beep.
+
 ## GPU / CUDA
 
 CUDA 13 redistributables and Whisper natives ship inside the install folder. A separate CUDA Toolkit install is unnecessary when those files are present. Machines without an NVIDIA GPU stay on CPU. Updates replace the whole folder, not a lone exe.
 
 ## Updates
 
-The in-app checker uses the stable `vX.Y.Z` channel only. **Update** downloads the release zip, verifies the GitHub `sha256` digest, then restarts. A helper script waits for the process to exit and mirrors the staged folder onto the install directory, including Whisper and CUDA natives. User data is left in place.
+The in-app checker uses the stable `vX.Y.Z` channel only. A newer release changes the window’s update row to **Update**; it does not play a tray balloon. **Update** downloads the release zip, verifies the GitHub `sha256` digest, then restarts. A helper script waits for the process to exit and mirrors the staged folder onto the install directory, including Whisper and CUDA natives. User data is left in place.
 
 Do not install the app inside `%LocalAppData%\LocalDictate`. Dev `bin` / `obj` folders refuse to self-update.
 

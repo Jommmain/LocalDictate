@@ -15,7 +15,6 @@ public partial class App : System.Windows.Application
     private StatusWindow? _statusWindow;
     private RecordingOverlay? _overlay;
     private UpdateService? _updates;
-    private bool _updateAnnounced;
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -47,15 +46,6 @@ public partial class App : System.Windows.Application
                 Dispatcher.Invoke(() =>
                 {
                     _statusWindow?.ShowUpdateState();
-                    if (_updates.Available is not null && !_updateAnnounced)
-                    {
-                        _updateAnnounced = true;
-                        _tray?.ShowBalloonTip(
-                            5000,
-                            "LocalDictate",
-                            $"{_updates.Available.Tag} — откройте окно и нажмите «Обновить».",
-                            Forms.ToolTipIcon.Info);
-                    }
                 });
             }
             catch (InvalidOperationException)
@@ -92,7 +82,7 @@ public partial class App : System.Windows.Application
                 $"Не удалось запустить LocalDictate.\n\n{ex.Message}",
                 "LocalDictate",
                 MessageBoxButton.OK,
-                MessageBoxImage.Error);
+                MessageBoxImage.None);
         }
     }
 

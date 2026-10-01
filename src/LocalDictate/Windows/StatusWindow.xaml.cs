@@ -8,6 +8,9 @@ public partial class StatusWindow : Window
 {
     private readonly DictationController _controller;
     private readonly UpdateService _updates;
+    private readonly AppSettings _settings;
+    private readonly AppPaths _paths;
+    private bool _loadingSettings = true;
 
     public StatusWindow(
         DictationController controller,
@@ -19,7 +22,11 @@ public partial class StatusWindow : Window
         InitializeComponent();
         _controller = controller;
         _updates = updates;
+        _settings = settings;
+        _paths = paths;
         _controller.AttachWindow(this);
+        SoundCuesBox.IsChecked = settings.PlaySoundCues;
+        _loadingSettings = false;
 
         LanguageValue.Text = settings.AsrLanguage.ToLowerInvariant() switch
         {
@@ -86,7 +93,7 @@ public partial class StatusWindow : Window
                 $"Скачать {offer.Tag} целиком (программа, Whisper и CUDA), сверить sha256 и заменить папку установки?\n\nНастройки и модель не удаляются. Приложение закроется и откроется снова.",
                 "LocalDictate",
                 MessageBoxButton.YesNo,
-                MessageBoxImage.Information);
+                MessageBoxImage.None);
             if (answer != MessageBoxResult.Yes)
             {
                 return;
@@ -120,6 +127,17 @@ public partial class StatusWindow : Window
     {
         LiveWave.IsLive = visual.Active;
         LiveWave.Level = visual.Level;
+    }
+
+    private void SoundCues_Changed(object sender, RoutedEventArgs e)
+    {
+        if (_loadingSettings)
+        {
+            return;
+        }
+
+        _settings.PlaySoundCues = SoundCuesBox.IsChecked == true;
+        SettingsStore.Save(_paths, _settings);
     }
 
     private void Hide_Click(object sender, RoutedEventArgs e)

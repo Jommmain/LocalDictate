@@ -33,6 +33,12 @@ public sealed class AppSettings
     [JsonPropertyName("pressEnterAfterPaste")]
     public bool PressEnterAfterPaste { get; set; }
 
+    /// <summary>
+    /// Soft start/stop tones. Off for new installs; an existing true value is kept.
+    /// </summary>
+    [JsonPropertyName("playSoundCues")]
+    public bool PlaySoundCues { get; set; }
+
     [JsonPropertyName("historyLimit")]
     public int HistoryLimit { get; set; } = 50;
 
