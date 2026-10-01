@@ -3,10 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              ShutdownMode="OnExplicitShutdown">
   <Application.Resources>
-    <SolidColorBrush x:Key="BgBrush" Color="#111827"/>
-    <SolidColorBrush x:Key="CardBrush" Color="#1F2937"/>
-    <SolidColorBrush x:Key="TextBrush" Color="#F9FAFB"/>
-    <SolidColorBrush x:Key="MutedBrush" Color="#9CA3AF"/>
-    <SolidColorBrush x:Key="AccentBrush" Color="#2563EB"/>
+    <!-- Locked palette: warmer blue tint, not pure white. -->
+    <SolidColorBrush x:Key="BgBrush" Color="#E3EDF6"/>
+    <SolidColorBrush x:Key="CardBrush" Color="#F3F8FC"/>
+    <SolidColorBrush x:Key="CardAltBrush" Color="#D9E8F4"/>
+    <SolidColorBrush x:Key="TextBrush" Color="#173044"/>
+    <SolidColorBrush x:Key="MutedBrush" Color="#5C7386"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#1F74E0"/>
+    <SolidColorBrush x:Key="AccentTealBrush" Color="#149AAB"/>
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#D4E7F7"/>
+    <SolidColorBrush x:Key="LineBrush" Color="#C5D6E6"/>
+    <SolidColorBrush x:Key="TrackBrush" Color="#D5E4F0"/>
+
+    <Style TargetType="Window">
+      <Setter Property="FontFamily" Value="Segoe UI"/>
+      <Setter Property="UseLayoutRounding" Value="True"/>
+      <Setter Property="SnapsToDevicePixels" Value="True"/>
+      <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+    </Style>
+
+    <Style x:Key="QuietButton" TargetType="Button">
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource CardAltBrush}"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="16,10"/>
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Chrome" Background="{TemplateBinding Background}" CornerRadius="14"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Opacity" Value="0.82"/>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chrome" Property="Opacity" Value="0.7"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
   </Application.Resources>
 </Application>

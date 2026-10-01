@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Media.Animation;
 using LocalDictate.Services;
 
 namespace LocalDictate.Windows;
@@ -17,15 +18,36 @@ public partial class StatusWindow : Window
         _controller = controller;
         _controller.AttachWindow(this);
 
+        LanguageValue.Text = settings.AsrLanguage.ToLowerInvariant() switch
+        {
+            "ru" => "Русский",
+            "en" => "English",
+            _ => "Авто",
+        };
+        OfflineValue.Text = settings.OfflineOnly ? "Да" : "Нет";
         PathsText.Text =
             $"Модель: {(models.ModelExists ? "есть" : "будет загружена один раз")}\n" +
-            $"Папка: {paths.Root}\n" +
-            $"Офлайн: {(settings.OfflineOnly ? "да" : "нет")} · язык ASR: {settings.AsrLanguage}";
+            $"Папка: {paths.Root}";
+
+        Opacity = 0;
+        Loaded += (_, _) =>
+        {
+            BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(220))
+            {
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
+            });
+        };
     }
 
     public void SetStatus(string status)
     {
         StatusText.Text = status;
+    }
+
+    public void ApplyVisual(RecordingVisual visual)
+    {
+        LiveWave.IsLive = visual.Active;
+        LiveWave.Level = visual.Level;
     }
 
     private void Hide_Click(object sender, RoutedEventArgs e)
@@ -35,7 +57,6 @@ public partial class StatusWindow : Window
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
-        // Close to tray instead of exiting.
         e.Cancel = true;
         Hide();
     }

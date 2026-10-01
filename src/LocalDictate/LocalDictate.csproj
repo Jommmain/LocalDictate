@@ -7,22 +7,36 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\LocalDictate.ico</ApplicationIcon>
     <AssemblyName>LocalDictate</AssemblyName>
     <RootNamespace>LocalDictate</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.2.6</Version>
+    <AssemblyVersion>0.2.6.0</AssemblyVersion>
+    <FileVersion>0.2.6.0</FileVersion>
     <Authors>LocalDictate</Authors>
     <Description>Strictly offline Russian/English dictation for Windows</Description>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Include="Whisper.net" Version="1.8.1" />
-    <PackageReference Include="Whisper.net.Runtime" Version="1.8.1" />
+    <PackageReference Include="Whisper.net" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime.Cuda.Windows" Version="1.9.1" />
+    <PackageReference Include="NtvLibs.cuda13.cudart64_13.runtime.win-x64" Version="13.4.2.1" />
+    <PackageReference Include="NtvLibs.cuda13.cublas64_13.runtime.win-x64" Version="13.4.2.1" />
+    <PackageReference Include="NtvLibs.cuda13.cublasLt64_13.runtime.win-x64" Version="13.4.2.1" />
+    <PackageReference Include="NtvLibs.cuda13.cublasLt64_13.runtime.win-x64.f00" Version="13.4.2.1" />
+    <PackageReference Include="NtvLibs.cuda13.cublasLt64_13.runtime.win-x64.f01" Version="13.4.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.default.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\LocalDictate.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
