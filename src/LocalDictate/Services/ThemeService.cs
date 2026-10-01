@@ -29,20 +29,21 @@ public static class ThemeService
 
         if (light)
         {
-            Set(resources, "BgBrush", 0xE3, 0xED, 0xF6);
-            Set(resources, "CardBrush", 0xF3, 0xF8, 0xFC);
-            Set(resources, "CardAltBrush", 0xD9, 0xE8, 0xF4);
+            Set(resources, "BgBrush", 0xE7, 0xF1, 0xFB);
+            Set(resources, "CardBrush", 0xF5, 0xFA, 0xFE);
+            Set(resources, "CardAltBrush", 0xD5, 0xE7, 0xF6);
             Set(resources, "TextBrush", 0x17, 0x30, 0x44);
             Set(resources, "MutedBrush", 0x5C, 0x73, 0x86);
             Set(resources, "AccentBrush", 0x1F, 0x74, 0xE0);
             Set(resources, "AccentTealBrush", 0x14, 0x9A, 0xAB);
-            Set(resources, "AccentSoftBrush", 0xD4, 0xE7, 0xF7);
-            Set(resources, "LineBrush", 0xC5, 0xD6, 0xE6);
-            Set(resources, "TrackBrush", 0xD5, 0xE4, 0xF0);
+            Set(resources, "AccentSoftBrush", 0xD7, 0xE9, 0xF8);
+            Set(resources, "TealSoftBrush", 0xD4, 0xF3, 0xF4);
+            Set(resources, "LineBrush", 0xC9, 0xDA, 0xEA);
+            Set(resources, "TrackBrush", 0xD8, 0xE3, 0xEE);
             Set(resources, "SwitchBrush", 0x34, 0xC7, 0x59);
-            Set(resources, "ThumbBrush", 0xFF, 0xFF, 0xFF);
-            Set(resources, "OverlayBrush", 0xF7, 0xFB, 0xFE, 245);
-            Set(resources, "OverlayEdgeBrush", 0xFF, 0xFF, 0xFF);
+            Set(resources, "ThumbBrush", 0xF7, 0xFB, 0xFE);
+            Set(resources, "OverlayBrush", 0xEA, 0xF3, 0xFB, 240);
+            Set(resources, "OverlayEdgeBrush", 0xF4, 0xF8, 0xFC);
         }
         else
         {
@@ -54,6 +55,7 @@ public static class ThemeService
             Set(resources, "AccentBrush", 0x5A, 0xA6, 0xFF);
             Set(resources, "AccentTealBrush", 0x3D, 0xCF, 0xC8);
             Set(resources, "AccentSoftBrush", 0x1C, 0x3D, 0x58);
+            Set(resources, "TealSoftBrush", 0x14, 0x3C, 0x42);
             Set(resources, "LineBrush", 0x31, 0x48, 0x5E);
             Set(resources, "TrackBrush", 0x22, 0x34, 0x48);
             Set(resources, "SwitchBrush", 0x30, 0xD1, 0x58);

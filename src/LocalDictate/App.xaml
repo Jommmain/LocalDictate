@@ -3,21 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              ShutdownMode="OnExplicitShutdown">
   <Application.Resources>
-    <!-- Locked palette: warmer blue tint, not pure white. -->
-    <SolidColorBrush x:Key="BgBrush" Color="#E3EDF6"/>
-    <SolidColorBrush x:Key="CardBrush" Color="#F3F8FC"/>
-    <SolidColorBrush x:Key="CardAltBrush" Color="#D9E8F4"/>
+    <!-- Warmer blue tint. Page and cards stay off-white; icon wells carry the accent. -->
+    <SolidColorBrush x:Key="BgBrush" Color="#E7F1FB"/>
+    <SolidColorBrush x:Key="CardBrush" Color="#F5FAFE"/>
+    <SolidColorBrush x:Key="CardAltBrush" Color="#D5E7F6"/>
     <SolidColorBrush x:Key="TextBrush" Color="#173044"/>
     <SolidColorBrush x:Key="MutedBrush" Color="#5C7386"/>
     <SolidColorBrush x:Key="AccentBrush" Color="#1F74E0"/>
     <SolidColorBrush x:Key="AccentTealBrush" Color="#149AAB"/>
-    <SolidColorBrush x:Key="AccentSoftBrush" Color="#D4E7F7"/>
-    <SolidColorBrush x:Key="LineBrush" Color="#C5D6E6"/>
-    <SolidColorBrush x:Key="TrackBrush" Color="#D5E4F0"/>
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#D7E9F8"/>
+    <SolidColorBrush x:Key="TealSoftBrush" Color="#D4F3F4"/>
+    <SolidColorBrush x:Key="LineBrush" Color="#C9DAEA"/>
+    <SolidColorBrush x:Key="TrackBrush" Color="#D8E3EE"/>
     <SolidColorBrush x:Key="SwitchBrush" Color="#34C759"/>
-    <SolidColorBrush x:Key="ThumbBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="OverlayBrush" Color="#F5F7FBFE"/>
-    <SolidColorBrush x:Key="OverlayEdgeBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ThumbBrush" Color="#F7FBFE"/>
+    <SolidColorBrush x:Key="OverlayBrush" Color="#F0EAF3FB"/>
+    <SolidColorBrush x:Key="OverlayEdgeBrush" Color="#F4F8FC"/>
 
     <Style TargetType="Window">
       <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -60,6 +61,18 @@
       <Setter Property="FontSize" Value="12"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
       <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+    </Style>
+
+    <Style x:Key="IconWell" TargetType="Border">
+      <Setter Property="Width" Value="32"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="IconWellTeal" TargetType="Border" BasedOn="{StaticResource IconWell}">
+      <Setter Property="Background" Value="{DynamicResource TealSoftBrush}"/>
     </Style>
 
     <Style x:Key="GroupCard" TargetType="Border">
