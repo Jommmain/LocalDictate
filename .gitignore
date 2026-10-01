@@ -1,0 +1,31 @@
+## .NET
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.suo
+*.user
+*.rsuser
+.vs/
+*.nupkg
+project.lock.json
+artifacts/
+
+## Models (large; downloaded separately)
+models/
+*.bin
+*.gguf
+ggml-*.bin
+
+## OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+## LocalDictate runtime
+AppData/
+*.log
