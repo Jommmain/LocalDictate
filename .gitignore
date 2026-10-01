@@ -29,3 +29,6 @@ Thumbs.db
 ## LocalDictate runtime
 AppData/
 *.log
+
+# Requires GitHub token workflow scope to push
+.github/workflows/
