@@ -34,6 +34,8 @@ dotnet publish src/LocalDictate/LocalDictate.csproj -c Release -r win-x64 --self
 
 Распакуйте всю папку. Рядом с `LocalDictate.exe` должны оказаться `whisper.dll`, `ggml-*.dll` и CUDA-библиотеки (cudart/cublas 13) из пакетов runtime. Не запускайте exe отдельно от этой папки.
 
+Установка, первый запуск и автообновление из GitHub Releases: [docs/INSTALL.md](docs/INSTALL.md). Установщик — `installer/LocalDictate.iss` (Inno Setup 6, per-user, вся папка).
+
 ## Проверка на нескольких мониторах
 
 Облачная сборка не двигает реальные мониторы. На Windows:
@@ -52,7 +54,7 @@ dotnet publish src/LocalDictate/LocalDictate.csproj -c Release -r win-x64 --self
 
 ## Статус
 
-0.2.6: трей и иконка приложения, волна уровня микрофона, закрепление индикатора на мониторе курсора, сине-бирюзовая палитра главного окна.
+0.2.6: иконка, волна записи, индикатор на мониторе курсора, синяя палитра, проверка стабильных релизов GitHub и замена всей папки установки.
 
 ## Лицензия
 

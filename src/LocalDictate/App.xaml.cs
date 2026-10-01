@@ -14,6 +14,8 @@ public partial class App : System.Windows.Application
     private DictationController? _controller;
     private StatusWindow? _statusWindow;
     private RecordingOverlay? _overlay;
+    private UpdateService? _updates;
+    private bool _updateAnnounced;
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -31,12 +33,36 @@ public partial class App : System.Windows.Application
         var asr = new TranscriptionService(models, settings, logger);
         var inserter = new TextInserter(logger);
         var hotkeys = new HotkeyService(logger);
+        _updates = new UpdateService(paths, logger);
 
         _controller = new DictationController(
             settings, recorder, asr, inserter, history, hotkeys, logger);
 
         _overlay = new RecordingOverlay();
-        _statusWindow = new StatusWindow(_controller, settings, models, paths);
+        _statusWindow = new StatusWindow(_controller, settings, models, paths, _updates);
+        _updates.StateChanged += (_, _) =>
+        {
+            try
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    _statusWindow?.ShowUpdateState();
+                    if (_updates.Available is not null && !_updateAnnounced)
+                    {
+                        _updateAnnounced = true;
+                        _tray?.ShowBalloonTip(
+                            5000,
+                            "LocalDictate",
+                            $"{_updates.Available.Tag} — откройте окно и нажмите «Обновить».",
+                            Forms.ToolTipIcon.Info);
+                    }
+                });
+            }
+            catch (InvalidOperationException)
+            {
+                // The dispatcher is shutting down.
+            }
+        };
         _controller.StatusChanged += (_, status) =>
             Dispatcher.Invoke(() => _statusWindow?.SetStatus(status));
         _controller.VisualChanged += (_, visual) =>
@@ -50,6 +76,7 @@ public partial class App : System.Windows.Application
         _statusWindow.Show();
         // Ensure HWND exists before registering the global hotkey.
         _ = new System.Windows.Interop.WindowInteropHelper(_statusWindow).EnsureHandle();
+        _ = CheckForUpdatesAsync();
 
         try
         {
@@ -85,6 +112,12 @@ public partial class App : System.Windows.Application
             _statusWindow?.Show();
             _statusWindow?.Activate();
         });
+        _tray.ContextMenuStrip.Items.Add("Проверить обновления", null, (_, _) =>
+        {
+            _statusWindow?.Show();
+            _statusWindow?.Activate();
+            _ = CheckForUpdatesAsync();
+        });
         _tray.ContextMenuStrip.Items.Add("Выход", null, (_, _) => ShutdownApp());
         _tray.DoubleClick += (_, _) =>
         {
@@ -99,6 +132,16 @@ public partial class App : System.Windows.Application
         CloseOverlay();
         DisposeTray();
         Shutdown();
+    }
+
+    private async Task CheckForUpdatesAsync()
+    {
+        if (_updates is null)
+        {
+            return;
+        }
+
+        await _updates.CheckAsync();
     }
 
     private static string IconFilePath =>

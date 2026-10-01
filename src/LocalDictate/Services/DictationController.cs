@@ -26,6 +26,17 @@ public sealed class DictationController : IDisposable
 
     public event EventHandler<RecordingVisual>? VisualChanged;
 
+    public bool IsDictating
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _busy || _recorder.IsRecording;
+            }
+        }
+    }
+
     public DictationController(
         AppSettings settings,
         AudioRecorder recorder,

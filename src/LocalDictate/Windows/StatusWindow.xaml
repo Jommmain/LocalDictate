@@ -45,6 +45,18 @@
           <TextBlock x:Name="OfflineValue" HorizontalAlignment="Right" VerticalAlignment="Center"
                      Foreground="{DynamicResource MutedBrush}" FontSize="14"/>
         </Grid>
+        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
+        <DockPanel Margin="14,11" LastChildFill="True">
+          <Button x:Name="UpdateButton" DockPanel.Dock="Right" Margin="12,0,0,0"
+                  Content="Проверить" Style="{StaticResource QuietButton}" VerticalAlignment="Center"
+                  Click="Update_Click"/>
+          <StackPanel>
+            <TextBlock Text="Обновления" FontSize="14" VerticalAlignment="Center"/>
+            <TextBlock x:Name="UpdateStatusText" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{DynamicResource MutedBrush}"
+                       Text="Стабильные релизы GitHub, вся папка программы."/>
+          </StackPanel>
+        </DockPanel>
       </StackPanel>
     </Border>
 
