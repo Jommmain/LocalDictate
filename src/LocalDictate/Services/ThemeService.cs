@@ -39,6 +39,10 @@ public static class ThemeService
             Set(resources, "AccentSoftBrush", 0xD4, 0xE7, 0xF7);
             Set(resources, "LineBrush", 0xC5, 0xD6, 0xE6);
             Set(resources, "TrackBrush", 0xD5, 0xE4, 0xF0);
+            Set(resources, "SwitchBrush", 0x34, 0xC7, 0x59);
+            Set(resources, "ThumbBrush", 0xFF, 0xFF, 0xFF);
+            Set(resources, "OverlayBrush", 0xF7, 0xFB, 0xFE, 245);
+            Set(resources, "OverlayEdgeBrush", 0xFF, 0xFF, 0xFF);
         }
         else
         {
@@ -52,6 +56,10 @@ public static class ThemeService
             Set(resources, "AccentSoftBrush", 0x1C, 0x3D, 0x58);
             Set(resources, "LineBrush", 0x31, 0x48, 0x5E);
             Set(resources, "TrackBrush", 0x22, 0x34, 0x48);
+            Set(resources, "SwitchBrush", 0x30, 0xD1, 0x58);
+            Set(resources, "ThumbBrush", 0xF7, 0xFB, 0xFE);
+            Set(resources, "OverlayBrush", 0x1A, 0x29, 0x40, 242);
+            Set(resources, "OverlayEdgeBrush", 0x3A, 0x52, 0x68);
         }
     }
 
@@ -74,8 +82,8 @@ public static class ThemeService
         return true;
     }
 
-    private static void Set(ResourceDictionary resources, string key, byte r, byte g, byte b)
+    private static void Set(ResourceDictionary resources, string key, byte r, byte g, byte b, byte a = 255)
     {
-        resources[key] = new SolidColorBrush(Color.FromRgb(r, g, b));
+        resources[key] = new SolidColorBrush(Color.FromArgb(a, r, g, b));
     }
 }

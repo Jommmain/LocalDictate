@@ -9,8 +9,28 @@ namespace LocalDictate.Windows;
 
 public partial class RecordingOverlay : Window
 {
+    private static readonly SolidColorBrush RecBrush = Frozen(0xFF, 0x3B, 0x30);
+    private static readonly SolidColorBrush TranscribeBrush = Frozen(0x1F, 0x74, 0xE0);
     private bool _pinned;
     private int _pinGeneration;
+
+    private static SolidColorBrush Frozen(byte r, byte g, byte b)
+    {
+        var brush = new SolidColorBrush(Color.FromRgb(r, g, b));
+        brush.Freeze();
+        return brush;
+    }
+
+    private static string FormatElapsed(double seconds)
+    {
+        if (double.IsNaN(seconds) || seconds < 0)
+        {
+            seconds = 0;
+        }
+
+        var whole = (int)seconds;
+        return $"{whole / 60}:{whole % 60:00}";
+    }
 
     public RecordingOverlay()
     {
@@ -34,10 +54,12 @@ public partial class RecordingOverlay : Window
             return;
         }
 
-        PhaseText.Text = string.IsNullOrWhiteSpace(visual.PhaseLabel) ? "Запись" : visual.PhaseLabel;
+        var transcribing = visual.PhaseLabel.Contains("Распозн", StringComparison.Ordinal);
+        PhaseText.Text = transcribing ? "···" : "Rec";
+        TimerText.Text = FormatElapsed(visual.ElapsedSeconds);
         Wave.Level = visual.Level;
         Wave.IsLive = true;
-        PulseDot.Fill = TryFindResource("AccentBrush") as Brush ?? PulseDot.Fill;
+        PulseDot.Fill = transcribing ? TranscribeBrush : RecBrush;
 
         if (_pinned)
         {
@@ -73,7 +95,7 @@ public partial class RecordingOverlay : Window
             return;
         }
 
-        Clip = new RectangleGeometry(new Rect(0, 0, ActualWidth, ActualHeight), 22, 22);
+        Clip = new RectangleGeometry(new Rect(0, 0, ActualWidth, ActualHeight), 32, 32);
     }
 
     private void ConfigureNonActivating()

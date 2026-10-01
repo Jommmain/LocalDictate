@@ -139,7 +139,10 @@ public sealed class DictationController : IDisposable
 
     private void PublishVisual(bool active, string phase, float level)
     {
-        _latestVisual = new RecordingVisual(active, phase, level);
+        var elapsed = active && _startedAt != default
+            ? Math.Max(0, (DateTime.UtcNow - _startedAt).TotalSeconds)
+            : 0;
+        _latestVisual = new RecordingVisual(active, phase, level, elapsed);
         if (Interlocked.Exchange(ref _visualQueued, 1) == 1)
         {
             return;

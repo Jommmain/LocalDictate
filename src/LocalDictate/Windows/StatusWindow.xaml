@@ -3,71 +3,81 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:LocalDictate.Windows"
         Title="LocalDictate"
-        Width="440"
+        Width="420"
         SizeToContent="Height"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource BgBrush}"
         Foreground="{DynamicResource TextBrush}">
-  <StackPanel Margin="22,20,22,18">
+  <StackPanel Margin="20,18,20,16">
     <TextBlock Text="LocalDictate" FontSize="28" FontWeight="SemiBold"/>
-    <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource MutedBrush}" FontSize="14"
+    <TextBlock Margin="0,2,0,0" Foreground="{DynamicResource MutedBrush}" FontSize="14"
                Text="Офлайн диктовка · русский и английский"/>
 
-    <Border Margin="0,18,0,0" Padding="16,14" Background="{DynamicResource CardBrush}"
-            BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="18">
+    <Border Margin="0,16,0,0" Padding="16,14" Style="{StaticResource GroupCard}">
       <StackPanel>
         <TextBlock x:Name="StatusText" Text="Запуск…" FontSize="16" TextWrapping="Wrap"/>
-        <local:WaveformControl x:Name="LiveWave" Height="52" Margin="0,14,0,0"/>
-        <TextBlock Margin="0,12,0,0" Foreground="{DynamicResource MutedBrush}" FontSize="13"
+        <local:WaveformControl x:Name="LiveWave" Height="48" Margin="0,12,0,0"/>
+        <TextBlock Margin="0,10,0,0" Foreground="{DynamicResource MutedBrush}" FontSize="13"
                    Text="Правый Ctrl — начать и остановить запись"/>
       </StackPanel>
     </Border>
 
-    <TextBlock Margin="6,18,0,8" Foreground="{DynamicResource MutedBrush}" FontSize="12"
-               FontWeight="SemiBold" Text="Настройки"/>
-    <Border Background="{DynamicResource CardBrush}" BorderBrush="{DynamicResource LineBrush}"
-            BorderThickness="1" CornerRadius="18" Padding="4,2">
+    <TextBlock Text="ЗАПИСЬ" Style="{StaticResource SectionLabel}"/>
+    <Border Style="{StaticResource GroupCard}">
       <StackPanel>
-        <Grid Margin="14,11">
-          <TextBlock Text="Хоткей" VerticalAlignment="Center" FontSize="14"/>
+        <Grid Margin="16,12">
+          <TextBlock Text="Хоткей" VerticalAlignment="Center" FontSize="15"/>
           <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
-                     Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" Text="Правый Ctrl"/>
+                     Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" FontSize="15"
+                     Text="Правый Ctrl"/>
         </Grid>
-        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
-        <Grid Margin="14,11">
-          <TextBlock Text="Язык" VerticalAlignment="Center" FontSize="14"/>
-          <TextBlock x:Name="LanguageValue" HorizontalAlignment="Right" VerticalAlignment="Center"
-                     Foreground="{DynamicResource MutedBrush}" FontSize="14"/>
-        </Grid>
-        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
-        <Grid Margin="14,11">
-          <TextBlock Text="Сигналы записи" VerticalAlignment="Center" FontSize="14"/>
+        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="16,0"/>
+        <Grid Margin="16,10">
+          <TextBlock Text="Сигналы записи" VerticalAlignment="Center" FontSize="15"/>
           <CheckBox x:Name="SoundCuesBox" HorizontalAlignment="Right" VerticalAlignment="Center"
                     Style="{StaticResource SoftToggle}"
                     Checked="SoundCues_Changed" Unchecked="SoundCues_Changed"/>
         </Grid>
-        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
-        <Grid Margin="14,11">
-          <TextBlock Text="Офлайн" VerticalAlignment="Center" FontSize="14"/>
-          <TextBlock x:Name="OfflineValue" HorizontalAlignment="Right" VerticalAlignment="Center"
-                     Foreground="{DynamicResource MutedBrush}" FontSize="14"/>
-        </Grid>
-        <Border Height="1" Background="{DynamicResource LineBrush}" Margin="14,0"/>
-        <DockPanel Margin="14,11" LastChildFill="True">
-          <Button x:Name="UpdateButton" DockPanel.Dock="Right" Margin="12,0,0,0"
-                  Content="Проверить" Style="{StaticResource QuietButton}" VerticalAlignment="Center"
-                  Click="Update_Click"/>
-          <StackPanel>
-            <TextBlock Text="Обновления" FontSize="14" VerticalAlignment="Center"/>
-            <TextBlock x:Name="UpdateStatusText" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap"
-                       Foreground="{DynamicResource MutedBrush}"
-                       Text="Стабильные релизы GitHub, вся папка программы."/>
-          </StackPanel>
-        </DockPanel>
       </StackPanel>
     </Border>
 
-    <TextBlock x:Name="PathsText" Margin="6,14,0,0" FontSize="12" TextWrapping="Wrap"
+    <TextBlock Text="РАСПОЗНАВАНИЕ" Style="{StaticResource SectionLabel}"/>
+    <Border Style="{StaticResource GroupCard}">
+      <Grid Margin="16,12">
+        <TextBlock Text="Язык" VerticalAlignment="Center" FontSize="15"/>
+        <TextBlock x:Name="LanguageValue" HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Foreground="{DynamicResource MutedBrush}" FontSize="15"/>
+      </Grid>
+    </Border>
+
+    <TextBlock Text="ОФЛАЙН" Style="{StaticResource SectionLabel}"/>
+    <Border Style="{StaticResource GroupCard}">
+      <Grid Margin="16,10">
+        <TextBlock Text="Офлайн режим" VerticalAlignment="Center" FontSize="15"/>
+        <CheckBox x:Name="OfflineBox" HorizontalAlignment="Right" VerticalAlignment="Center"
+                  Style="{StaticResource SoftToggle}"
+                  Checked="Offline_Changed" Unchecked="Offline_Changed"/>
+      </Grid>
+    </Border>
+    <TextBlock Margin="16,8,16,0" Foreground="{DynamicResource MutedBrush}" FontSize="12" TextWrapping="Wrap"
+               Text="Модель и история только на этом компьютере."/>
+
+    <TextBlock Text="ОБНОВЛЕНИЯ" Style="{StaticResource SectionLabel}"/>
+    <Border Style="{StaticResource GroupCard}">
+      <DockPanel Margin="16,12" LastChildFill="True">
+        <Button x:Name="UpdateButton" DockPanel.Dock="Right" Margin="12,0,0,0"
+                Content="Проверить" Style="{StaticResource QuietButton}" VerticalAlignment="Center"
+                Click="Update_Click"/>
+        <StackPanel>
+          <TextBlock Text="Стабильный канал" FontSize="15"/>
+          <TextBlock x:Name="UpdateStatusText" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap"
+                     Foreground="{DynamicResource MutedBrush}"
+                     Text="Релизы GitHub, вся папка программы."/>
+        </StackPanel>
+      </DockPanel>
+    </Border>
+
+    <TextBlock x:Name="PathsText" Margin="16,14,16,0" FontSize="12" TextWrapping="Wrap"
                Foreground="{DynamicResource MutedBrush}"/>
 
     <Button Content="Скрыть в трей" Margin="0,16,0,0" HorizontalAlignment="Right"

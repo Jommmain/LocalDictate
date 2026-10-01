@@ -26,6 +26,7 @@ public partial class StatusWindow : Window
         _paths = paths;
         _controller.AttachWindow(this);
         SoundCuesBox.IsChecked = settings.PlaySoundCues;
+        OfflineBox.IsChecked = settings.OfflineOnly;
         _loadingSettings = false;
 
         LanguageValue.Text = settings.AsrLanguage.ToLowerInvariant() switch
@@ -34,7 +35,6 @@ public partial class StatusWindow : Window
             "en" => "English",
             _ => "Авто",
         };
-        OfflineValue.Text = settings.OfflineOnly ? "Да" : "Нет";
         PathsText.Text =
             $"Модель: {(models.ModelExists ? "есть" : "будет загружена один раз")}\n" +
             $"Папка: {paths.Root}";
@@ -137,6 +137,17 @@ public partial class StatusWindow : Window
         }
 
         _settings.PlaySoundCues = SoundCuesBox.IsChecked == true;
+        SettingsStore.Save(_paths, _settings);
+    }
+
+    private void Offline_Changed(object sender, RoutedEventArgs e)
+    {
+        if (_loadingSettings)
+        {
+            return;
+        }
+
+        _settings.OfflineOnly = OfflineBox.IsChecked == true;
         SettingsStore.Save(_paths, _settings);
     }
 

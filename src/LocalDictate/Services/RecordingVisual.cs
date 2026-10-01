@@ -1,3 +1,3 @@
 namespace LocalDictate.Services;
 
-public readonly record struct RecordingVisual(bool Active, string PhaseLabel, float Level);
+public readonly record struct RecordingVisual(bool Active, string PhaseLabel, float Level, double ElapsedSeconds = 0);

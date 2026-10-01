@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:LocalDictate.Windows"
         Title="LocalDictate"
-        Width="280" Height="88"
+        Width="360" Height="64"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -17,24 +17,27 @@
         SnapsToDevicePixels="True"
         SizeToContent="Manual">
   <Border x:Name="Root"
-          Background="{DynamicResource CardBrush}"
-          BorderBrush="{DynamicResource LineBrush}"
+          Background="{DynamicResource OverlayBrush}"
+          BorderBrush="{DynamicResource OverlayEdgeBrush}"
           BorderThickness="1"
-          CornerRadius="22"
+          CornerRadius="32"
           ClipToBounds="True"
-          Padding="16,12">
+          Padding="18,0,14,0">
     <Grid>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
-      <StackPanel Orientation="Horizontal">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
         <Ellipse x:Name="PulseDot" Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center"
-                 Fill="{DynamicResource AccentBrush}"/>
-        <TextBlock x:Name="PhaseText" Text="Запись" FontSize="13" FontWeight="SemiBold"
+                 Fill="#FF3B30"/>
+        <TextBlock x:Name="PhaseText" Text="Rec" FontSize="15" FontWeight="SemiBold"
                    Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center"/>
+        <TextBlock x:Name="TimerText" Margin="8,0,0,0" Text="0:00" FontSize="15"
+                   Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
       </StackPanel>
-      <local:WaveformControl x:Name="Wave" Grid.Row="1" Margin="0,8,0,0" IsLive="True"/>
+      <local:WaveformControl x:Name="Wave" Grid.Column="1" Margin="14,12,0,12"
+                             Colorful="True" IsLive="True"/>
     </Grid>
   </Border>
 </Window>
